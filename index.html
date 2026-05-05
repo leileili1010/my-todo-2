@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Barlow+Condensed:wght@300;400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap"
       rel="stylesheet"
     />
 
@@ -21,24 +21,23 @@
       }
 
       :root {
-        --bg: #030508;
-        --bg-2: #080d12;
-        --bg-3: #0e1520;
-        --border: rgba(0, 240, 180, 0.1);
-        --border-mid: rgba(0, 240, 180, 0.22);
-        --border-hi: rgba(0, 240, 180, 0.45);
-        --text: #c4ddd6;
-        --text-dim: #3e6059;
-        --text-faint: #1c352e;
-        --accent: #00f0b4;
-        --accent-dim: rgba(0, 240, 180, 0.12);
-        --accent-glow:
-          0 0 12px rgba(0, 240, 180, 0.35), 0 0 30px rgba(0, 240, 180, 0.12);
-        --done-bg: #060e0a;
-        --done-text: #1e4035;
-        --done-strike: rgba(0, 240, 180, 0.5);
-        --danger: #ff5555;
-        --danger-dim: rgba(255, 85, 85, 0.12);
+        --bg: #fff8f0;
+        --bg-2: #ffffff;
+        --bg-3: #fff0e6;
+        --border: rgba(255, 107, 53, 0.15);
+        --border-mid: rgba(255, 107, 53, 0.3);
+        --border-hi: rgba(255, 107, 53, 0.65);
+        --text: #2a1f14;
+        --text-dim: #a08878;
+        --text-faint: #d8c8bc;
+        --accent: #ff6b35;
+        --accent-dim: rgba(255, 107, 53, 0.1);
+        --accent-glow: 0 4px 16px rgba(255, 107, 53, 0.25);
+        --done-bg: #f5f5f0;
+        --done-text: #bcada0;
+        --done-strike: rgba(255, 107, 53, 0.5);
+        --danger: #e53e3e;
+        --danger-dim: rgba(229, 62, 62, 0.1);
       }
 
       html,
@@ -49,25 +48,9 @@
       body {
         background: var(--bg);
         color: var(--text);
-        font-family: "JetBrains Mono", monospace;
+        font-family: "Nunito", sans-serif;
         min-height: 100vh;
         overflow-x: hidden;
-      }
-
-      /* Scanlines */
-      body::before {
-        content: "";
-        position: fixed;
-        inset: 0;
-        background: repeating-linear-gradient(
-          0deg,
-          transparent,
-          transparent 3px,
-          rgba(0, 240, 180, 0.018) 3px,
-          rgba(0, 240, 180, 0.018) 4px
-        );
-        pointer-events: none;
-        z-index: 9999;
       }
 
       /* Dot grid */
@@ -77,10 +60,10 @@
         inset: 0;
         background-image: radial-gradient(
           circle,
-          rgba(0, 240, 180, 0.06) 1px,
+          rgba(255, 107, 53, 0.07) 1px,
           transparent 1px
         );
-        background-size: 32px 32px;
+        background-size: 48px 48px;
         pointer-events: none;
         z-index: 0;
       }
@@ -107,7 +90,7 @@
       }
 
       .boot-text {
-        font-family: "Barlow Condensed", sans-serif;
+        font-family: "Nunito", sans-serif;
         font-size: 0.75rem;
         letter-spacing: 0.35em;
         text-transform: uppercase;
@@ -139,7 +122,6 @@
       .boot-logo em {
         color: var(--accent);
         font-style: normal;
-        text-shadow: var(--accent-glow);
       }
 
       @keyframes bootLogoIn {
@@ -215,7 +197,7 @@
       }
 
       .sys-label {
-        font-family: "Barlow Condensed", sans-serif;
+        font-family: "Nunito", sans-serif;
         font-size: 0.7rem;
         font-weight: 600;
         letter-spacing: 0.35em;
@@ -231,11 +213,10 @@
       }
 
       .blink-dot {
-        width: 6px;
-        height: 6px;
+        width: 7px;
+        height: 7px;
         border-radius: 50%;
         background: var(--accent);
-        box-shadow: 0 0 6px var(--accent);
         animation: blink 2.4s ease-in-out infinite;
       }
 
@@ -261,7 +242,6 @@
 
       .main-title .accent-char {
         color: var(--accent);
-        text-shadow: var(--accent-glow);
       }
 
       .header-meta {
@@ -286,7 +266,7 @@
       /* ─── Input ────────────────────────────────────────────── */
       .input-label {
         display: block;
-        font-family: "Barlow Condensed", sans-serif;
+        font-family: "Nunito", sans-serif;
         font-size: 0.68rem;
         font-weight: 600;
         letter-spacing: 0.3em;
@@ -297,9 +277,11 @@
 
       .input-row {
         display: flex;
-        border: 1px solid var(--border-mid);
+        border: 1.5px solid var(--border-mid);
         background: var(--bg-2);
         margin-bottom: 1.25rem;
+        border-radius: 12px;
+        overflow: hidden;
         transition:
           border-color 0.2s,
           box-shadow 0.2s;
@@ -307,7 +289,7 @@
 
       .input-row:focus-within {
         border-color: var(--border-hi);
-        box-shadow: var(--accent-glow);
+        box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.18);
       }
 
       .input-prompt {
@@ -327,8 +309,8 @@
         border: none;
         outline: none;
         color: var(--text);
-        font-family: "JetBrains Mono", monospace;
-        font-size: 0.88rem;
+        font-family: "Nunito", sans-serif;
+        font-size: 0.95rem;
         padding: 0.9rem 0;
         caret-color: var(--accent);
       }
@@ -365,7 +347,8 @@
       }
 
       .add-btn:hover {
-        box-shadow: var(--accent-glow);
+        box-shadow: 0 4px 14px rgba(255, 107, 53, 0.4);
+        filter: brightness(1.08);
       }
 
       .add-btn:active::after {
@@ -375,57 +358,46 @@
       /* ─── Filters ──────────────────────────────────────────── */
       .filters {
         display: flex;
-        border: 1px solid var(--border);
+        gap: 0.5rem;
         margin-bottom: 1.5rem;
-        overflow: hidden;
       }
 
       .f-btn {
         flex: 1;
-        background: transparent;
-        border: none;
-        border-right: 1px solid var(--border);
+        background: var(--bg-2);
+        border: 1.5px solid var(--border-mid);
+        border-radius: 10px;
         color: var(--text-dim);
-        font-family: "Barlow Condensed", sans-serif;
-        font-size: 0.72rem;
+        font-family: "Nunito", sans-serif;
+        font-size: 0.78rem;
         font-weight: 700;
-        letter-spacing: 0.3em;
+        letter-spacing: 0.08em;
         text-transform: uppercase;
         padding: 0.55rem 0.5rem;
         cursor: pointer;
         transition: all 0.15s;
       }
 
-      .f-btn:last-child {
-        border-right: none;
-      }
-
       .f-btn:hover {
         background: var(--accent-dim);
         color: var(--accent);
+        border-color: var(--border-hi);
       }
 
       .f-btn.active {
-        background: var(--accent-dim);
-        color: var(--accent);
-        position: relative;
-      }
-
-      .f-btn.active::after {
-        content: "";
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: 2px;
         background: var(--accent);
-        box-shadow: var(--accent-glow);
+        color: #fff;
+        border-color: var(--accent);
+        box-shadow: 0 3px 10px rgba(255, 107, 53, 0.3);
       }
 
       /* ─── Task List ────────────────────────────────────────── */
       .task-list {
         flex: 1;
         list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
       }
 
       /* Task entry animation */
@@ -458,28 +430,23 @@
         align-items: center;
         gap: 0.9rem;
         padding: 0.85rem 1.1rem;
-        border: 1px solid var(--border);
-        margin-bottom: -1px;
+        border: 1.5px solid var(--border);
+        border-radius: 12px;
         background: var(--bg-2);
         position: relative;
-        transition: background 0.15s;
+        transition:
+          background 0.15s,
+          box-shadow 0.15s,
+          border-color 0.15s;
         animation: taskSlideIn 0.28s cubic-bezier(0.2, 0, 0, 1) both;
         max-height: 100px;
         overflow: hidden;
       }
 
-      .task-item:first-child {
-        border-radius: 2px 2px 0 0;
-      }
-      .task-item:last-child {
-        border-radius: 0 0 2px 2px;
-        margin-bottom: 0;
-      }
-
       .task-item:hover {
         background: var(--bg-3);
-        z-index: 1;
         border-color: var(--border-mid);
+        box-shadow: 0 2px 12px rgba(255, 107, 53, 0.1);
       }
 
       .task-item.done {
@@ -505,9 +472,10 @@
 
       /* Custom checkbox */
       .task-check {
-        width: 17px;
-        height: 17px;
-        border: 1px solid var(--border-mid);
+        width: 18px;
+        height: 18px;
+        border: 1.5px solid var(--border-mid);
+        border-radius: 5px;
         flex-shrink: 0;
         cursor: pointer;
         display: flex;
@@ -519,13 +487,13 @@
 
       .task-check:hover {
         border-color: var(--accent);
-        box-shadow: 0 0 8px rgba(0, 240, 180, 0.25);
+        background: var(--accent-dim);
       }
 
       .task-item.done .task-check {
         background: var(--accent);
         border-color: var(--accent);
-        box-shadow: 0 0 10px rgba(0, 240, 180, 0.4);
+        box-shadow: 0 2px 8px rgba(255, 107, 53, 0.35);
       }
 
       .check-mark {
@@ -546,8 +514,8 @@
 
       .task-text {
         flex: 1;
-        font-size: 0.87rem;
-        font-weight: 400;
+        font-size: 0.95rem;
+        font-weight: 600;
         line-height: 1.45;
         color: var(--text);
         word-break: break-word;
@@ -568,8 +536,8 @@
         background: transparent;
         border: 1px solid transparent;
         color: var(--text-dim);
-        font-family: "JetBrains Mono", monospace;
-        font-size: 1rem;
+        font-family: "Nunito", sans-serif;
+        font-size: 1.1rem;
         line-height: 1;
         display: flex;
         align-items: center;
@@ -596,7 +564,7 @@
       }
 
       .empty-icon {
-        font-family: "JetBrains Mono", monospace;
+        font-family: "Nunito", sans-serif;
         font-size: 1.8rem;
         color: var(--text-faint);
         margin-bottom: 1.2rem;
@@ -657,14 +625,15 @@
 
       .clear-btn {
         background: transparent;
-        border: 1px solid var(--border);
+        border: 1.5px solid var(--border-mid);
         color: var(--text-dim);
-        font-family: "Barlow Condensed", sans-serif;
-        font-size: 0.68rem;
+        font-family: "Nunito", sans-serif;
+        font-size: 0.75rem;
         font-weight: 700;
-        letter-spacing: 0.25em;
+        letter-spacing: 0.05em;
         text-transform: uppercase;
-        padding: 0.35rem 0.85rem;
+        padding: 0.35rem 0.9rem;
+        border-radius: 8px;
         cursor: pointer;
         transition: all 0.15s;
       }

@@ -32,3 +32,9 @@ Everything is in `index.html`, organized in three sections:
 ```
 curl -sL https://github.com/cli/cli/releases/download/v2.67.0/gh_2.67.0_linux_amd64.tar.gz -o /tmp/gh.tar.gz && tar xzf /tmp/gh.tar.gz -C /tmp
 ```
+
+# Rules
+
+- Do NOT run any git operations (git add, commit, push, etc.) unless explicitly instructed by the user.
+- Never automatically commit or push changes.
+- Only modify files.

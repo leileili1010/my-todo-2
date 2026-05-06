@@ -1,0 +1,20 @@
+I want to extend my todo app with the following features.
+
+## Feature 1: Priority Selection
+- When creating a todo item, the user should be able to select a priority level
+- Priority options:
+  - Low
+  - Normal
+  - Urgent
+- The selected priority should be displayed clearly on each todo item
+
+## Feature 2: Created Time Display
+- Each todo item should display:
+  - Creation date
+  - Creation time
+- This information should appear alongside the task name
+
+## UI / Frontend Design Requirements
+- Use frontend-design to design the UI
+- Keep the UI clean and intuitive
+

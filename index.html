@@ -263,6 +263,101 @@
         font-weight: 500;
       }
 
+      /* ─── Priority selector ───────────────────────────────── */
+      .priority-row {
+        display: flex;
+        gap: 0.4rem;
+        margin-bottom: 0.6rem;
+      }
+
+      .p-btn {
+        flex: 1;
+        background: var(--bg-2);
+        border: 1.5px solid var(--border-mid);
+        border-radius: 8px;
+        color: var(--text-dim);
+        font-family: "Nunito", sans-serif;
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        padding: 0.4rem 0.5rem;
+        cursor: pointer;
+        transition: all 0.15s;
+      }
+
+      .p-btn[data-p="low"].active {
+        background: #e8f5e9;
+        color: #2e7d32;
+        border-color: #81c784;
+      }
+      .p-btn[data-p="normal"].active {
+        background: #e3f2fd;
+        color: #1565c0;
+        border-color: #64b5f6;
+      }
+      .p-btn[data-p="urgent"].active {
+        background: #ffebee;
+        color: #c62828;
+        border-color: #ef9a9a;
+      }
+
+      .p-btn:not(.active):hover {
+        background: var(--accent-dim);
+        color: var(--accent);
+        border-color: var(--border-hi);
+      }
+
+      /* ─── Priority badge ───────────────────────────────────── */
+      .priority-badge {
+        flex-shrink: 0;
+        font-size: 0.62rem;
+        font-weight: 800;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        padding: 0.2rem 0.5rem;
+        border-radius: 6px;
+        white-space: nowrap;
+      }
+
+      .priority-badge.low {
+        background: #e8f5e9;
+        color: #2e7d32;
+      }
+      .priority-badge.normal {
+        background: #e3f2fd;
+        color: #1565c0;
+      }
+      .priority-badge.urgent {
+        background: #ffebee;
+        color: #c62828;
+      }
+
+      .task-item.done .priority-badge {
+        opacity: 0.35;
+      }
+
+      /* ─── Task body (text + time) ──────────────────────────── */
+      .task-body {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 0.18rem;
+        min-width: 0;
+      }
+
+      .task-time {
+        font-size: 0.62rem;
+        color: var(--text-faint);
+        font-weight: 400;
+        letter-spacing: 0.04em;
+      }
+
+      .task-item.done .task-time {
+        color: var(--text-faint);
+        opacity: 0.6;
+      }
+
       /* ─── Input ────────────────────────────────────────────── */
       .input-label {
         display: block;
@@ -700,6 +795,11 @@
 
       <!-- Input -->
       <label class="input-label" for="todo-input">// 新建任务</label>
+      <div class="priority-row" id="priority-row">
+        <button class="p-btn" data-p="low">Low</button>
+        <button class="p-btn active" data-p="normal">Normal</button>
+        <button class="p-btn" data-p="urgent">Urgent</button>
+      </div>
       <div class="input-row">
         <span class="input-prompt">›</span>
         <input
@@ -736,6 +836,7 @@
         /* ── State ── */
         let tasks = JSON.parse(localStorage.getItem("memo_tasks") || "[]");
         let filter = "all";
+        let selectedPriority = "normal";
         let uid = tasks.length ? Math.max(...tasks.map((t) => t.id)) + 1 : 1;
 
         /* ── Date ── */
@@ -764,6 +865,19 @@
             .replace(/</g, "&lt;")
             .replace(/>/g, "&gt;")
             .replace(/"/g, "&quot;");
+
+        /* ── Format timestamp ── */
+        const fmtTime = (ts) => {
+          const d = new Date(ts);
+          return `${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")} ${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
+        };
+
+        /* ── Priority label ── */
+        const priorityLabel = {
+          low: "Low",
+          normal: "Normal",
+          urgent: "Urgent",
+        };
 
         /* ── Render ── */
         const render = () => {
@@ -795,8 +909,9 @@
           }
 
           list.innerHTML = view
-            .map(
-              (t, i) => `
+            .map((t, i) => {
+              const p = t.priority ?? "normal";
+              return `
           <li class="task-item ${t.done ? "done" : ""}" data-id="${t.id}">
             <span class="task-num">${String(i + 1).padStart(2, "0")}</span>
             <div class="task-check" role="checkbox" aria-checked="${t.done}" tabindex="0"
@@ -804,10 +919,14 @@
                  onkeydown="if(event.key==='Enter'||event.key===' ')toggle(${t.id})">
               <span class="check-mark">✓</span>
             </div>
-            <span class="task-text">${esc(t.text)}</span>
+            <div class="task-body">
+              <span class="task-text">${esc(t.text)}</span>
+              <span class="task-time">${fmtTime(t.ts)}</span>
+            </div>
+            <span class="priority-badge ${p}">${priorityLabel[p]}</span>
             <button class="task-del" onclick="remove(${t.id})" title="删除">×</button>
-          </li>`,
-            )
+          </li>`;
+            })
             .join("");
 
           updateStats();
@@ -840,11 +959,28 @@
         const addTask = (text) => {
           text = text.trim();
           if (!text) return false;
-          tasks.unshift({ id: uid++, text, done: false, ts: Date.now() });
+          tasks.unshift({
+            id: uid++,
+            text,
+            done: false,
+            ts: Date.now(),
+            priority: selectedPriority,
+          });
           save();
           render();
           return true;
         };
+
+        /* ── Priority selector ── */
+        document.querySelectorAll(".p-btn").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            document
+              .querySelectorAll(".p-btn")
+              .forEach((b) => b.classList.remove("active"));
+            btn.classList.add("active");
+            selectedPriority = btn.dataset.p;
+          });
+        });
 
         /* ── Inputs ── */
         const input = document.getElementById("todo-input");
